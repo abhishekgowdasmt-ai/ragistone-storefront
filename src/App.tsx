@@ -2,10 +2,10 @@ import { useState } from 'react'
 import { ArrowDownRight, ArrowRight, ArrowUpRight, Menu, Phone, X } from 'lucide-react'
 
 const products = [
-  { number: '01', category: 'IN THE KITCHEN', name: 'Vegetable cutting board', material: 'MDF', description: 'A simple starting point for everyday chopping and prep.', art: 'board' },
-  { number: '02', category: 'KITCHEN FINDS', name: 'Kitchen accessories', material: 'THE LITTLE HELPERS', description: 'Useful details for the busiest corner of the home.', art: 'tools' },
-  { number: '03', category: 'ON THE MOVE', name: 'GripSip bottle', material: 'STAINLESS STEEL', description: 'An everyday companion for commutes, errands and beyond.', art: 'bottle' },
-  { number: '04', category: 'OUT WITH YOUR DOG', name: 'Pet waste picker', material: 'WALK ESSENTIAL', description: 'A practical pick for making daily walks a little easier.', art: 'picker' },
+  { number: '01', category: 'IN THE KITCHEN', name: 'Prep & Serveware', material: 'BOARDS · TRAYS · SERVING', description: 'Everyday pieces for chopping, prepping and bringing it to the table.', art: 'board' },
+  { number: '02', category: 'KITCHEN FINDS', name: 'Kitchen Accessories', material: 'THE LITTLE HELPERS', description: 'Useful tools and details for the busiest corner of the home.', art: 'tools' },
+  { number: '03', category: 'ON THE MOVE', name: 'On-the-Go Essentials', material: 'BOTTLES · CARRY', description: 'Everyday companions for commutes, errands and beyond.', art: 'bottle' },
+  { number: '04', category: 'FOR YOUR PET', name: 'Pet Accessories', material: 'WALKS · CARE · PLAY', description: 'Practical picks that make daily life with your pet a little easier.', art: 'picker' },
 ]
 
 const contacts = [
@@ -31,7 +31,7 @@ function BrandMark({ small = false }: { small?: boolean }) {
 
 function ProductArt({ type }: { type: string }) {
   if (type === 'board') return (
-    <svg className="product-art product-art--board" viewBox="0 0 380 300" role="img" aria-label="Illustration of a wood-toned vegetable cutting board">
+    <svg className="product-art product-art--board" viewBox="0 0 380 300" role="img" aria-label="Illustration for Prep & Serveware: a wooden board with fresh vegetables">
       <ellipse cx="192" cy="255" rx="136" ry="20" fill="#9d805a" opacity=".13" />
       <g transform="rotate(-8 190 170)">
         <rect x="70" y="92" width="238" height="146" rx="28" fill="#b27d4b" />
@@ -46,7 +46,7 @@ function ProductArt({ type }: { type: string }) {
     </svg>
   )
   if (type === 'tools') return (
-    <svg className="product-art product-art--tools" viewBox="0 0 380 300" role="img" aria-label="Illustration of kitchen utensils">
+    <svg className="product-art product-art--tools" viewBox="0 0 380 300" role="img" aria-label="Illustration for Kitchen Accessories: kitchen utensils">
       <ellipse cx="192" cy="260" rx="133" ry="17" fill="#7e735a" opacity=".12" />
       <g transform="rotate(-17 126 153)"><rect x="113" y="131" width="18" height="116" rx="9" fill="#aa7950" /><path d="M121.5 128v-64m-12 4c-7 17-7 36 12 43m12-43c7 17 7 36-12 43m-6-38v34m12-34v34" stroke="#d6a85f" strokeWidth="5" strokeLinecap="round" /></g>
       <g transform="rotate(12 206 158)"><rect x="197" y="137" width="18" height="111" rx="9" fill="#a77951" /><path d="M206 131c-14 0-24-10-24-23s10-24 24-24 24 11 24 24-10 23-24 23Zm-13-37 26 27m-26 0 26-27m-13-10v40m-19-20h38" stroke="#858c76" strokeWidth="4" strokeLinecap="round" /></g>
@@ -55,7 +55,7 @@ function ProductArt({ type }: { type: string }) {
     </svg>
   )
   if (type === 'bottle') return (
-    <svg className="product-art product-art--bottle" viewBox="0 0 380 300" role="img" aria-label="Illustration of a stainless steel bottle">
+    <svg className="product-art product-art--bottle" viewBox="0 0 380 300" role="img" aria-label="Illustration for On-the-Go Essentials: a water bottle">
       <ellipse cx="191" cy="258" rx="76" ry="17" fill="#6b7665" opacity=".15" />
       <path d="M171 60c0-10 8-18 18-18h8c10 0 18 8 18 18v25h-44V60Z" fill="#a7aaa1" />
       <path d="M161 84h64c8 0 14 6 14 14v117c0 24-19 43-43 43h-6c-24 0-43-19-43-43V98c0-8 6-14 14-14Z" fill="url(#steel)" stroke="#858b83" strokeWidth="3" />
@@ -66,7 +66,7 @@ function ProductArt({ type }: { type: string }) {
     </svg>
   )
   return (
-    <svg className="product-art product-art--picker" viewBox="0 0 380 300" role="img" aria-label="Illustration of a pet waste picker">
+    <svg className="product-art product-art--picker" viewBox="0 0 380 300" role="img" aria-label="Illustration for Pet Accessories: a dog-walk accessory with a paw tag">
       <ellipse cx="188" cy="257" rx="132" ry="16" fill="#81765e" opacity=".13" />
       <path d="M139 88c0-8 6-14 14-14h11c8 0 14 6 14 14v109h-39V88Z" fill="#7d8b60" />
       <path d="M155 195v36m-8-5-15 19m31-19 15 19" stroke="#65714f" strokeWidth="9" strokeLinecap="round" />

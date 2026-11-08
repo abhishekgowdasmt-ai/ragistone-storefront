@@ -1,6 +1,6 @@
 # Ragistone
 
-Ragistone is a React + Vite launch storefront for household, kitchen and pet essentials. The opening edit previews four product categories: an MDF vegetable cutting board, kitchen accessories, the GripSip stainless-steel bottle, and a pet waste picker.
+Ragistone is a React + Vite launch storefront for household, kitchen and pet essentials. The opening edit previews four product categories: Prep & Serveware, Kitchen Accessories, On-the-Go Essentials and Pet Accessories.
 
 ## Run locally
 
