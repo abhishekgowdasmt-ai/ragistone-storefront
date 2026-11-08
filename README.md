@@ -1,6 +1,6 @@
 # Ragistone
 
-Ragistone is a React + Vite launch storefront for household, kitchen and pet essentials. The opening edit previews four product categories: Prep & Serveware, Kitchen Accessories, On-the-Go Essentials and Pet Accessories.
+Ragistone is a React + Vite launch storefront for household, kitchen and pet essentials. The opening edit previews four product categories: Home Essentials, Kitchen Accessories, On-the-Go Essentials and Pet Accessories.
 
 ## Run locally
 

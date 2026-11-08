@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { ArrowDownRight, ArrowRight, ArrowUpRight, Menu, Phone, X } from 'lucide-react'
 
 const products = [
-  { number: '01', category: 'IN THE KITCHEN', name: 'Prep & Serveware', material: 'BOARDS · TRAYS · SERVING', description: 'Everyday pieces for chopping, prepping and bringing it to the table.', art: 'board' },
+  { number: '01', category: 'IN THE KITCHEN', name: 'Home Essentials', material: 'BOARDS · TRAYS · SERVING', description: 'Everyday pieces for chopping, prepping and bringing it to the table.', art: 'board' },
   { number: '02', category: 'KITCHEN FINDS', name: 'Kitchen Accessories', material: 'THE LITTLE HELPERS', description: 'Useful tools and details for the busiest corner of the home.', art: 'tools' },
   { number: '03', category: 'ON THE MOVE', name: 'On-the-Go Essentials', material: 'BOTTLES · CARRY', description: 'Everyday companions for commutes, errands and beyond.', art: 'bottle' },
   { number: '04', category: 'FOR YOUR PET', name: 'Pet Accessories', material: 'WALKS · CARE · PLAY', description: 'Practical picks that make daily life with your pet a little easier.', art: 'picker' },
@@ -31,7 +31,7 @@ function BrandMark({ small = false }: { small?: boolean }) {
 
 function ProductArt({ type }: { type: string }) {
   if (type === 'board') return (
-    <svg className="product-art product-art--board" viewBox="0 0 380 300" role="img" aria-label="Illustration for Prep & Serveware: a wooden board with fresh vegetables">
+    <svg className="product-art product-art--board" viewBox="0 0 380 300" role="img" aria-label="Illustration for Home Essentials: a wooden board with fresh vegetables">
       <ellipse cx="192" cy="255" rx="136" ry="20" fill="#9d805a" opacity=".13" />
       <g transform="rotate(-8 190 170)">
         <rect x="70" y="92" width="238" height="146" rx="28" fill="#b27d4b" />
