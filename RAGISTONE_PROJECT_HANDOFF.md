@@ -103,7 +103,8 @@ ragistone-storefront/
 | 5 | GoDaddy DNS (done by owner): 4 A records `@` -> 185.199.108/109/110/111.153; `www` CNAME -> `abhishekgowdasmt-ai.github.io`. HTTPS certificate approved; **Enforce HTTPS turned on** | n/a |
 | 6 | Homepage cards changed from specific products to categories: **Prep & Serveware**, **Kitchen Accessories**, **On-the-Go Essentials**, **Pet Accessories** (design unchanged; screen-reader labels + README updated) | `e821812` |
 | 7 | **Admin part 1 (sign-in & lock)**: code complete, builds and type-checks; backend not yet deployed (see §6). Homepage footer gets an **"Owner login"** link to `/admin/` | `fb17944` |
-| 8 | Card 01 renamed to **Home Essentials** (design unchanged) | this commit |
+| 8 | Card 01 renamed to **Home Essentials** (design unchanged) | `434d106` |
+| 9 | Admin part 1 connected: OAuth Client ID + Apps Script web app wired in `config.ts`; setup created private Drive/Sheet | this commit |
 
 ---
 
