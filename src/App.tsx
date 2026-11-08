@@ -137,7 +137,7 @@ function App() {
         </section>
         <div className="footer-top">
         <div><BrandMark small /><p className="footer-tagline">Everyday, in good company.</p></div>
-        <div className="footer-links"><div><span>EXPLORE</span><a href="#collection">The collection</a><a href="#everyday">Everyday notes</a></div><div><span>RAGISTONE</span><a href="#story">Our approach</a><a href="#top">Back to the top</a></div><div><span>THE FIRST EDIT</span><p>Kitchen · Home · Pet</p><p>More taking shape.</p></div></div>
+        <div className="footer-links"><div><span>EXPLORE</span><a href="#collection">The collection</a><a href="#everyday">Everyday notes</a></div><div><span>RAGISTONE</span><a href="#story">Our approach</a><a href="#top">Back to the top</a><a href="/admin/">Owner login</a></div><div><span>THE FIRST EDIT</span><p>Kitchen · Home · Pet</p><p>More taking shape.</p></div></div>
         <a className="back-top" href="#top" aria-label="Back to top">↑</a>
       </div><div className="footer-bottom"><span>© 2026 RAGISTONE</span><span>MADE FOR THE EVERYDAY</span><a href="#top">India <span>↗</span></a></div></footer>
     </div>
