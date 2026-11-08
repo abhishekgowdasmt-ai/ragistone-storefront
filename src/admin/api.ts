@@ -36,3 +36,7 @@ export async function callApi<T>(action: string, token: string, payload?: unknow
   if (!body.ok) throw new ApiError(body.error, body.message)
   return body.data
 }
+
+export function isAuthError(err: unknown): err is ApiError {
+  return err instanceof ApiError && (err.code === 'unauthenticated' || err.code === 'not_allowed')
+}

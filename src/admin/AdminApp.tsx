@@ -3,6 +3,9 @@ import { ChartColumn, FileText, HandCoins, LoaderCircle, Lock, LogOut, Package, 
 import { ApiError, callApi } from './api'
 import { clearToken, loadToken, readClaims, renderGoogleButton, saveToken } from './auth'
 import { API_URL, GOOGLE_CLIENT_ID } from './config'
+import { DocumentsPanel } from './DocumentsPanel'
+import { ExpensesPanel } from './ExpensesPanel'
+import { MonthStrip, PartiesPanel, PaymentsPanel, ProductsPanel, PurchasesPanel, ReportsPanel, SalesPanel } from './ShopPanels'
 
 type User = { email: string; name: string }
 type State =
@@ -14,15 +17,15 @@ type State =
 
 type SecurityReport = { checked: number; owner: string; sharedWith: string[]; linkShared: { path: string; access: string }[]; unexpectedPeople: string[]; allPrivate: boolean }
 
-const sections = [
-  { title: 'Documents', note: 'GST, MSME, FSSAI, plans, bills and more, kept in Drive.', icon: FileText, part: 2 },
-  { title: 'Expenses', note: 'Who paid what, and who owes whom.', icon: Wallet, part: 3 },
-  { title: 'Parties', note: 'Suppliers and customers in one list.', icon: Users, part: 4 },
-  { title: 'Products & stock', note: 'Prices, GST, HSN and low-stock alerts.', icon: Package, part: 5 },
-  { title: 'Purchases', note: 'Bills from suppliers; stock goes up.', icon: ShoppingCart, part: 6 },
-  { title: 'Sales & invoices', note: 'GST invoices, quotations and credit notes.', icon: ReceiptText, part: 7 },
-  { title: 'Payments', note: "You'll get / you'll give, with reminders.", icon: HandCoins, part: 8 },
-  { title: 'Reports', note: 'Monthly totals and GST summary for your CA.', icon: ChartColumn, part: 9 },
+const ready = [
+  { id: 'documents' as const, title: 'Documents', note: 'GST, MSME, FSSAI, plans, bills and more, kept in Drive.', icon: FileText },
+  { id: 'expenses' as const, title: 'Expenses', note: 'Who paid what, and who owes whom.', icon: Wallet },
+  { id: 'parties' as const, title: 'Parties', note: 'Suppliers and customers in one list.', icon: Users },
+  { id: 'products' as const, title: 'Products & stock', note: 'Prices, GST, HSN and low-stock alerts.', icon: Package },
+  { id: 'purchases' as const, title: 'Purchases', note: 'Bills from suppliers; stock goes up.', icon: ShoppingCart },
+  { id: 'sales' as const, title: 'Sales & invoices', note: 'GST invoices, quotations and credit notes.', icon: ReceiptText },
+  { id: 'payments' as const, title: 'Payments', note: "You'll get / you'll give, with reminders.", icon: HandCoins },
+  { id: 'reports' as const, title: 'Reports', note: 'Monthly totals and GST summary for your CA.', icon: ChartColumn },
 ]
 
 function BrandMark() {
@@ -120,7 +123,17 @@ function SecurityPanel({ token, onAuthError }: { token: string; onAuthError: (er
 }
 
 function Dashboard({ user, token, onAuthError }: { user: User; token: string; onAuthError: (err: ApiError) => void }) {
+  const [view, setView] = useState<'home' | 'documents' | 'expenses' | 'parties' | 'products' | 'purchases' | 'sales' | 'payments' | 'reports'>('home')
   const first = user.name || user.email.split('@')[0]
+  const back = () => setView('home')
+  if (view === 'documents') return <DocumentsPanel token={token} onAuthError={onAuthError} onBack={back} />
+  if (view === 'expenses') return <ExpensesPanel token={token} onAuthError={onAuthError} onBack={back} />
+  if (view === 'parties') return <PartiesPanel token={token} onAuthError={onAuthError} onBack={back} />
+  if (view === 'products') return <ProductsPanel token={token} onAuthError={onAuthError} onBack={back} />
+  if (view === 'purchases') return <PurchasesPanel token={token} onAuthError={onAuthError} onBack={back} />
+  if (view === 'sales') return <SalesPanel token={token} onAuthError={onAuthError} onBack={back} />
+  if (view === 'payments') return <PaymentsPanel token={token} onAuthError={onAuthError} onBack={back} />
+  if (view === 'reports') return <ReportsPanel token={token} onAuthError={onAuthError} onBack={back} />
   return (
     <>
       <section className="admin-welcome">
@@ -128,15 +141,16 @@ function Dashboard({ user, token, onAuthError }: { user: User; token: string; on
         <h1>Good to see you, <em>{first}.</em></h1>
         <p className="admin-verified"><ShieldCheck size={16} /> Access verified by the server for {user.email}</p>
       </section>
-      <section aria-labelledby="sections-heading">
-        <h2 id="sections-heading" className="admin-section-title">What’s coming</h2>
+      <MonthStrip token={token} onAuthError={onAuthError} />
+      <section aria-labelledby="ready-heading">
+        <h2 id="ready-heading" className="admin-section-title">The business</h2>
         <div className="admin-tiles">
-          {sections.map(({ title, note, icon: Icon, part }) => (
-            <article className="admin-tile" key={title}>
-              <div className="admin-tile__top"><Icon size={20} strokeWidth={1.6} /><span className="admin-soon">Part {part}</span></div>
+          {ready.map(({ id, title, note, icon: Icon }) => (
+            <button className="admin-tile" type="button" key={id} onClick={() => setView(id)}>
+              <div className="admin-tile__top"><Icon size={20} strokeWidth={1.6} /><span className="admin-soon">Open</span></div>
               <h3>{title}</h3>
               <p>{note}</p>
-            </article>
+            </button>
           ))}
         </div>
       </section>

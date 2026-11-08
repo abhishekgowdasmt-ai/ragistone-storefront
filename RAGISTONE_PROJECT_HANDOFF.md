@@ -104,7 +104,8 @@ ragistone-storefront/
 | 6 | Homepage cards changed from specific products to categories: **Prep & Serveware**, **Kitchen Accessories**, **On-the-Go Essentials**, **Pet Accessories** (design unchanged; screen-reader labels + README updated) | `e821812` |
 | 7 | **Admin part 1 (sign-in & lock)**: code complete, builds and type-checks; backend not yet deployed (see §6). Homepage footer gets an **"Owner login"** link to `/admin/` | `fb17944` |
 | 8 | Card 01 renamed to **Home Essentials** (design unchanged) | `434d106` |
-| 9 | Admin part 1 connected: OAuth Client ID + Apps Script web app wired in `config.ts`; setup created private Drive/Sheet | this commit |
+| 9 | Admin part 1 connected: OAuth Client ID + Apps Script web app wired in `config.ts`; setup created private Drive/Sheet | `25059cf` |
+| 10 | Admin parts 2–9: documents, expenses, parties, stock, purchases, GST invoices, payments, monthly report and Excel export | this commit |
 
 ---
 
@@ -197,17 +198,17 @@ Build one part at a time, test, commit + push, then stop for the owners. Keep it
 
 | Part | Feature | Details |
 |---|---|---|
-| 2 | **Documents** | Upload / view / download into Drive folders GST, MSME, FSSAI, Product Plans, Bills & Receipts, Other. Files go through the script as base64 (keep ≤ ~10 MB; resize phone photos client-side before upload). Never create public links. |
-| 3 | **Expenses** | Date, amount, category, paid by (Abhishek BG / Chethan Kumar S / Rajath M), payment mode, note, receipt photo (Drive "Bills & Receipts"). Show each partner's total contribution and who owes whom for an equal 3-way split (fewest transfers). |
-| 4 | **Parties** | Suppliers and customers: name, phone, GSTIN (validate format), address, state (dropdown of Indian states/UTs). |
-| 5 | **Products & stock** | Name, category, HSN, unit, GST %, purchase price, selling price, current stock, low-stock alert level. Log every stock movement. |
-| 6 | **Purchases** | Supplier, multiple items (qty, rate, GST), total, paid, balance due. Stock goes **up**. |
-| 7 | **Sales & invoices** | GST tax invoice, auto-number `RS/2026-27/001` (resets each 1 April; separate series `QT/…` for quotations, `CN/…` for credit notes; lock to avoid duplicates). Our details, customer GSTIN, HSN, place of supply; **CGST+SGST** if customer state = Karnataka, else **IGST**; total in words (Indian lakh/crore). PDF saved to Drive "Invoices"; download; share on WhatsApp (Web Share API with the PDF on phones, `wa.me` text fallback). Stock goes **down** on sale, **up** on credit note. If not GST-registered yet, print "Bill of Supply" instead of tax invoice. |
-| 8 | **Payments & balances** | Record money received/paid against a party; Khatabook-style "You'll get / You'll give" per party; WhatsApp payment reminder (`wa.me` link with message). |
-| 9 | **Dashboard & reports** | Monthly sales, purchases, expenses, rough profit (sales − cost of goods sold − expenses), pending dues, stock value; monthly GST summary (output GST vs input GST, net) for the CA; **export to Excel (.xlsx)**. |
+| 2 | **Documents** | **Built.** Upload / view / download into Drive folders GST, MSME, FSSAI, Product Plans, Bills & Receipts, Other. Files go through the script as base64 (keep ≤ 9 MB; photos resized in the browser). Never create public links. |
+| 3 | **Expenses** | **Built.** Date, amount, category, paid by (Abhishek BG / Chethan Kumar S / Rajath M), payment mode, note, receipt photo (Drive "Bills & Receipts"). Shows each partner's contribution and the fewest transfers for an equal 3-way split. |
+| 4 | **Parties** | **Built.** Suppliers and customers: name, phone, GSTIN (format checked), address, state. |
+| 5 | **Products & stock** | **Built.** Name, category, HSN, unit, GST %, purchase price, selling price, stock, low-stock alert. Every movement is logged. |
+| 6 | **Purchases** | **Built.** Supplier, items, qty, rate, GST, total, paid, balance. Stock goes up. |
+| 7 | **Sales & invoices** | **Built.** Tax invoice `RS/2026-27/001` (resets 1 April), quotation `QT/…`, credit note `CN/…`. CGST+SGST in Karnataka, else IGST. PDF in Drive, WhatsApp share. Stock down on sale, up on credit note. No GSTIN prints a Bill of Supply. |
+| 8 | **Payments & balances** | **Built.** Money received/paid, You'll get / You'll give, WhatsApp reminder. |
+| 9 | **Dashboard & reports** | **Built.** Monthly sales, purchases, expenses, rough profit, dues, stock value, GST summary, Excel export. |
 
-### Invoice details still needed from the owners (before part 7)
-Legal business name, address, phone, GST registration status / GSTIN, state (expected: Karnataka), and optional bank / UPI details for invoices. These were sent as blank placeholders, so ask again.
+### Invoice details
+Taken from the GST certificate and saved in Apps Script properties (not in this repo): legal name Rekha, trade name Ragistone, Karnataka, GST registered. Bank and UPI were left blank. Owners can edit them under Sales → Details printed on invoices.
 
 ### Known limits to tell the owners
 - Apps Script responses take ~1–3 s per action.
