@@ -10,7 +10,7 @@ const products = [
 
 const contacts = [
   { name: 'Abhishek BG', phone: '+91 99011 10780' },
-  { name: 'Chethan Kumar S', phone: '+91 87229 91408' },
+  { name: 'Chethan Kumar S', phone: '+91 86605 06538' },
   { name: 'Rajath M', phone: '+91 82779 11024' },
 ]
 

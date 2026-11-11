@@ -595,6 +595,18 @@ function json_(obj) {
 }
 
 /** Run from clasp only. Moves a file the company account already owns into a private admin folder. */
+function moveNamedFile(fromName, fileName, toName) {
+  if (UPLOAD_FOLDERS.indexOf(fromName) === -1 || UPLOAD_FOLDERS.indexOf(toName) === -1) throw new Error('Bad folder');
+  var from = folderFromProp_(folderKey_(fromName));
+  var to = folderFromProp_(folderKey_(toName));
+  if (!from || !to) throw new Error('Missing folder');
+  var matches = from.getFilesByName(fileName);
+  if (!matches.hasNext()) throw new Error('Not found: ' + fileName);
+  var file = matches.next();
+  file.moveTo(to);
+  return to.getName() + ' / ' + file.getName();
+}
+
 function fileIntoFolder(fileId, folderName, newName) {
   if (UPLOAD_FOLDERS.indexOf(folderName) === -1) throw new Error('Bad folder');
   var folder = folderFromProp_(folderKey_(folderName));

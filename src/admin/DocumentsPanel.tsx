@@ -107,6 +107,8 @@ export function DocumentsPanel({ token, onAuthError, onBack }: { token: string; 
         {busy ? <LoaderCircle className="spin" size={16} /> : <Upload size={16} />} {busy || 'Upload to ' + folder}
       </label>
       <p className="admin-fineprint">Photos are resized on your phone before upload. Other files up to 9 MB.</p>
+      {folder === 'FSSAI' && <p className="admin-notice">Ragistone FSSAI registration 21226010008610 was issued on 04 Nov 2026. Fee is paid up to 03 Nov 2027. Renew before 03 Nov 2027. TRBM Cloud kitchen registration 21226008006267 was issued on 06 Nov 2026. Fee is paid up to 05 Nov 2027. Renew before 05 Nov 2027.</p>}
+      {folder === 'MSME' && <p className="admin-notice">Udyam (MSME) registration does not expire. No renewal is required. Update the certificate on the Udyam portal only if the business name, address or activity changes.</p>}
       {notice && <p className="admin-notice">{notice}</p>}
       {error && <p className="admin-notice admin-notice--error">{error}</p>}
       {loading ? <p className="admin-muted"><LoaderCircle className="spin" size={16} /> Loading {folder}…</p> : (

@@ -209,7 +209,7 @@ export default function AdminApp() {
     <div className="admin-shell">
       <header className="admin-header">
         <div className="admin-header__inner">
-          <div className="admin-header__brand"><BrandMark /><span className="admin-tag">Admin</span></div>
+          <div className="admin-header__brand"><BrandMark /><span className="admin-tag">Admin</span><a className="admin-button admin-button--ghost" href="/">Home Page</a></div>
           {state.kind === 'ready' && (
             <div className="admin-header__user">
               <span className="admin-header__email">{state.user.email}</span>
