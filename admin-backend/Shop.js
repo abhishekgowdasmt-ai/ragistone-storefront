@@ -448,6 +448,69 @@ function partyBalances_() {
   }).filter(function (row) { return row.youGet > 0 || row.youGive > 0; });
 }
 
+/* ---------- sourcing pipeline ---------- */
+
+var SOURCING_STATUSES = ['Researching', 'Sampling', 'Approved', 'Dropped'];
+
+function listSourcing_() {
+  ensureSourcing_();
+  var rows = readTab_('Sourcing', function (r) {
+    return {
+      id: String(r[0]), name: String(r[1] || ''), what: String(r[2] || ''), why: String(r[3] || ''),
+      india: Number(r[4]) || 0, factory: Number(r[5]) || 0, note: String(r[6] || ''), status: String(r[7] || 'Researching'),
+      updated: cellDateTime_(r[8])
+    };
+  });
+  return { rows: rows, statuses: SOURCING_STATUSES };
+}
+
+function saveSourcing_(payload, user) {
+  var name = cleanText_(payload.name, 120);
+  if (!name) throw fail_('bad_request', 'Enter a product name.');
+  var status = SOURCING_STATUSES.indexOf(payload.status) === -1 ? 'Researching' : payload.status;
+  var values = [name, cleanText_(payload.what, 600), cleanText_(payload.why, 600), round2_(payload.india), round2_(payload.factory), cleanText_(payload.note, 1800), status, new Date()];
+  var sh = sheet_().getSheetByName('Sourcing');
+  if (payload.id) {
+    var found = findRow_(sh, requireId_(payload.id));
+    if (!found) throw fail_('bad_request', 'That product was not found.');
+    sh.getRange(found.index, 2, 1, 8).setValues([values]);
+    log_(user.email, 'sourcing.update', name);
+    return { id: String(payload.id) };
+  }
+  var id = Utilities.getUuid();
+  sh.appendRow([id].concat(values));
+  log_(user.email, 'sourcing.add', name);
+  return { id: id };
+}
+
+function deleteSourcing_(payload, user) {
+  var id = requireId_(payload.id);
+  var sh = sheet_().getSheetByName('Sourcing');
+  var found = findRow_(sh, id);
+  if (!found) throw fail_('bad_request', 'That product was not found.');
+  sh.deleteRow(found.index);
+  log_(user.email, 'sourcing.delete', found.row[1]);
+  return { id: id };
+}
+
+function ensureSourcing_() {
+  var sh = sheet_().getSheetByName('Sourcing');
+  if (props_().getProperty('SOURCING_SEEDED') === 'yes' || sh.getLastRow() > 1) {
+    props_().setProperty('SOURCING_SEEDED', 'yes');
+    return;
+  }
+  var ideas = [
+    ['Wooden vegetable cutting board', 'A wooden or bamboo board for chopping vegetables and other food. Acacia or bamboo is the material to ask for. Ordinary MDF is not suitable for a food surface.', 'Used every day at the kitchen counter. A wooden board is kinder to knives than glass or stone and can be the premium piece in the home range.', 599, 180, 'India retail seen in Nov 2026: bamboo boards about ₹264–₹699, solid mango wood about ₹948. Indian makers in Saharanpur list acacia at ₹150–₹195 and sheesham around ₹260 per piece, usually MOQ 50–100, before freight and GST. The partner deck says this is a good first product to research, and not to order yet.'],
+    ['Pet poop scooper', 'A handheld pickup tool for dog or cat waste. This is a scooper, not a bag dispenser. The deck asked us to confirm which of the two customers actually want.', 'Used on walks and in the yard so the owner does not touch the waste or bend down as far. A niche pet item that can later be sold with refill bags.', 349, 110, 'India retail seen in Nov 2026: Amazon Basics large folding scooper at ₹349. Factory lists: about ₹25 per unit at MOQ 1,500 for a basic claw, and ₹100–₹130 from a Ludhiana maker. The deck says test interest before a large order.'],
+    ['Dumbbell shape water bottle', 'A plastic gym bottle shaped like a dumbbell, usually 350–750 ml, sometimes a large 2 litre version. It is not an insulated steel bottle.', 'Used in the gym because the shape is easy to grip and it reads as a fitness product. Also sold as a low-cost promotional gift.', 149, 50, 'India wholesale lists in Nov 2026: ₹35 for 350 ml and ₹50 for 750 ml at MOQ 1,000, with a printed MRP around ₹95. Another Mumbai listing is ₹63 at MOQ 2,000. Large 2.2 litre gym bottles are a different product and sell nearer ₹250–₹600. This shape was not one of the five ideas in the deck.'],
+    ['Stainless steel sipper', 'A reusable stainless-steel bottle with a sipper or flip cap, commonly 650–750 ml. A plain single-wall bottle and a vacuum-insulated flask are different products and different costs.', 'Used for daily water at home, work, college and travel, instead of a plastic bottle.', 249, 150, 'India retail seen in Nov 2026: a basic 700 ml single-wall sipper works out near ₹185 each (a 3-pack at ₹555). Factory lists: ₹75 per piece at MOQ 1,000 for a plain 750 ml sipper, and about ₹250 for a 650–750 ml printed metal sipper. The deck says that if this becomes a vacuum flask imported from China, check BIS and anti-dumping duty before paying a supplier. IEC is not registered yet.']
+  ];
+  ideas.forEach(function (item) {
+    sh.appendRow([Utilities.getUuid(), item[0], item[1], item[2], item[3], item[4], item[5], 'Researching', new Date()]);
+  });
+  props_().setProperty('SOURCING_SEEDED', 'yes');
+}
+
 /* ---------- reports ---------- */
 
 function dashboard_(payload) {

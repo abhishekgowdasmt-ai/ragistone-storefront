@@ -32,7 +32,8 @@ var TABS = {
   StockLog: ['Time', 'Email', 'Product id', 'Product', 'Change', 'Balance', 'Reason', 'Ref'],
   Purchases: ['Id', 'Date', 'Supplier id', 'Supplier', 'Items', 'Taxable', 'GST', 'Total', 'Paid', 'Balance', 'Created by', 'Created at'],
   Sales: ['Id', 'Date', 'Type', 'Number', 'Party id', 'Party', 'State', 'Items', 'Taxable', 'CGST', 'SGST', 'IGST', 'Total', 'Words', 'Paid', 'Balance', 'File id', 'Created by', 'Created at'],
-  Payments: ['Id', 'Date', 'Party id', 'Direction', 'Amount', 'Mode', 'Note', 'Ref', 'Created by', 'Created at']
+  Payments: ['Id', 'Date', 'Party id', 'Direction', 'Amount', 'Mode', 'Note', 'Ref', 'Created by', 'Created at'],
+  Sourcing: ['Id', 'Name', 'What', 'Why', 'India price', 'Factory price', 'Note', 'Status', 'Updated']
 };
 
 /* ---------- web entry points ---------- */
@@ -111,7 +112,10 @@ var ACTIONS = {
   savePayment: function (payload, user) { return withLock_(function () { return savePayment_(payload, user); }); },
   deletePayment: function (payload, user) { return withLock_(function () { return deletePayment_(payload, user); }); },
   dashboard: function (payload) { return dashboard_(payload); },
-  exportReport: function (payload, user) { return withLock_(function () { return exportReport_(payload, user); }); }
+  exportReport: function (payload, user) { return withLock_(function () { return exportReport_(payload, user); }); },
+  listSourcing: function () { return withLock_(function () { return listSourcing_(); }); },
+  saveSourcing: function (payload, user) { return withLock_(function () { return saveSourcing_(payload, user); }); },
+  deleteSourcing: function (payload, user) { return withLock_(function () { return deleteSourcing_(payload, user); }); }
 };
 
 /* ---------- the lock ---------- */
@@ -340,9 +344,11 @@ function safeMime_(mime) {
     'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': true,
     'application/vnd.openxmlformats-officedocument.wordprocessingml.document': true,
     'application/msword': true,
-    'application/vnd.ms-excel': true
+    'application/vnd.ms-excel': true,
+    'application/vnd.ms-powerpoint': true,
+    'application/vnd.openxmlformats-officedocument.presentationml.presentation': true
   };
-  if (!ok[value]) throw fail_('bad_request', 'Use a PDF, photo, Word, Excel or CSV file.');
+  if (!ok[value]) throw fail_('bad_request', 'Use a PDF, photo, Word, Excel, PowerPoint or CSV file.');
   return value;
 }
 

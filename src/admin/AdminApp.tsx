@@ -1,11 +1,12 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { ChartColumn, FileText, HandCoins, LoaderCircle, Lock, LogOut, Package, ReceiptText, RefreshCw, ShieldCheck, ShoppingCart, Users, Wallet } from 'lucide-react'
+import { ChartColumn, ClipboardList, FileText, HandCoins, LoaderCircle, Lock, LogOut, Package, ReceiptText, RefreshCw, ShieldCheck, ShoppingCart, Users, Wallet } from 'lucide-react'
 import { ApiError, callApi } from './api'
 import { clearToken, loadToken, readClaims, renderGoogleButton, saveToken } from './auth'
 import { API_URL, GOOGLE_CLIENT_ID } from './config'
 import { DocumentsPanel } from './DocumentsPanel'
 import { ExpensesPanel } from './ExpensesPanel'
 import { MonthStrip, PartiesPanel, PaymentsPanel, ProductsPanel, PurchasesPanel, ReportsPanel, SalesPanel } from './ShopPanels'
+import { SourcingPanel } from './SourcingPanel'
 
 type User = { email: string; name: string }
 type State =
@@ -19,6 +20,7 @@ type SecurityReport = { checked: number; owner: string; sharedWith: string[]; li
 
 const ready = [
   { id: 'documents' as const, title: 'Documents', note: 'GST, MSME, FSSAI, plans, bills and more, kept in Drive.', icon: FileText },
+  { id: 'sourcing' as const, title: 'Sourcing', note: 'Products we may buy, with India and factory prices.', icon: ClipboardList },
   { id: 'expenses' as const, title: 'Expenses', note: 'Who paid what, and who owes whom.', icon: Wallet },
   { id: 'parties' as const, title: 'Parties', note: 'Suppliers and customers in one list.', icon: Users },
   { id: 'products' as const, title: 'Products & stock', note: 'Prices, GST, HSN and low-stock alerts.', icon: Package },
@@ -123,10 +125,11 @@ function SecurityPanel({ token, onAuthError }: { token: string; onAuthError: (er
 }
 
 function Dashboard({ user, token, onAuthError }: { user: User; token: string; onAuthError: (err: ApiError) => void }) {
-  const [view, setView] = useState<'home' | 'documents' | 'expenses' | 'parties' | 'products' | 'purchases' | 'sales' | 'payments' | 'reports'>('home')
+  const [view, setView] = useState<'home' | 'documents' | 'sourcing' | 'expenses' | 'parties' | 'products' | 'purchases' | 'sales' | 'payments' | 'reports'>('home')
   const first = user.name || user.email.split('@')[0]
   const back = () => setView('home')
   if (view === 'documents') return <DocumentsPanel token={token} onAuthError={onAuthError} onBack={back} />
+  if (view === 'sourcing') return <SourcingPanel token={token} onAuthError={onAuthError} onBack={back} />
   if (view === 'expenses') return <ExpensesPanel token={token} onAuthError={onAuthError} onBack={back} />
   if (view === 'parties') return <PartiesPanel token={token} onAuthError={onAuthError} onBack={back} />
   if (view === 'products') return <ProductsPanel token={token} onAuthError={onAuthError} onBack={back} />

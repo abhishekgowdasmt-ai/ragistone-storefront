@@ -103,7 +103,7 @@ export function DocumentsPanel({ token, onAuthError, onBack }: { token: string; 
         ))}
       </div>
       <label className="admin-upload">
-        <input type="file" accept="image/*,.pdf,.txt,.csv,.xls,.xlsx,.doc,.docx" disabled={!!busy} onChange={(e) => { upload(e.target.files); e.target.value = '' }} />
+        <input type="file" accept="image/*,.pdf,.txt,.csv,.xls,.xlsx,.doc,.docx,.ppt,.pptx" disabled={!!busy} onChange={(e) => { upload(e.target.files); e.target.value = '' }} />
         {busy ? <LoaderCircle className="spin" size={16} /> : <Upload size={16} />} {busy || 'Upload to ' + folder}
       </label>
       <p className="admin-fineprint">Photos are resized on your phone before upload. Other files up to 9 MB.</p>
